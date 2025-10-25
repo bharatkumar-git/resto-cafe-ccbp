@@ -1,0 +1,22 @@
+li {
+  list-style-type: none;
+}
+li > button {
+  border-width: 0px;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  width: max-content;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Nunito';
+  color: grey;
+  letter-spacing: 0.5px;
+  transition: border-bottom 40ms;
+}
+.selected-tab {
+  color: tomato;
+  border-bottom: 2px tomato solid;
+  /* border-radius: -2px; */
+}
