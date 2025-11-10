@@ -1,0 +1,26 @@
+.app-container {
+  height: 100%;
+}
+
+.content-container {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.content-tabs-ul {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  overflow-x: auto;
+  padding-inline: 24px;
+  padding-block: 2px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+.content-foods-ul {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}

@@ -1,6 +1,18 @@
+/* eslint-disable */
+import {useContext} from 'react'
+
+import CartContext from '../Context'
+
 import './index.css'
 
-const FoodItem = ({objDetails, incrementQuantity, derementQuantity}) => {
+const FoodItem = props => {
+  const {
+    decrementCartItemQuantity,
+    incrementCartItemQuantity,
+    cartList,
+  } = useContext(CartContext)
+
+  const {objDetails} = props
   const foodDetails = {
     dishId: objDetails.dish_id,
     addonCat: objDetails.addonCat,
@@ -13,8 +25,21 @@ const FoodItem = ({objDetails, incrementQuantity, derementQuantity}) => {
     dishName: objDetails.dish_name,
     dishPrice: objDetails.dish_price,
     nextUrl: objDetails.nexturl,
-    quantity: objDetails.quantity ?? 0,
   }
+
+  let itemQuantity
+  const itemQuantityObj = cartList.find(item => {
+    if (item.dishId === foodDetails.dishId) {
+      return item.quantity
+    }
+    return 0
+  })
+  if (itemQuantityObj == null) {
+    itemQuantity = 0
+  } else {
+    itemQuantity = itemQuantityObj.quantity
+  }
+
   return (
     <li className="foodItem-li">
       <div className="foodType-span-container">
@@ -28,21 +53,26 @@ const FoodItem = ({objDetails, incrementQuantity, derementQuantity}) => {
       <div className="dish-details-container">
         <h2>{foodDetails.dishName}</h2>
         <div style={{display: 'flex', gap: '8px'}}>
-          <p>{foodDetails.dishCurrency}</p>
-          <p>{foodDetails.dishPrice}</p>
+          <p>
+            {foodDetails.dishCurrency} {foodDetails.dishPrice}
+          </p>
         </div>
         <p>{foodDetails.dishDescription}</p>
         {foodDetails.dishAvailability ? (
           <div className="dish-details-counter-container">
             <button
-              onClick={() => derementQuantity(foodDetails.dishId)}
               type="button"
+              onClick={() => {
+                decrementCartItemQuantity(foodDetails)
+              }}
             >
               -
             </button>
-            <span>{foodDetails.quantity}</span>
+            <p>{itemQuantity}</p>
             <button
-              onClick={() => incrementQuantity(foodDetails.dishId)}
+              onClick={() => {
+                incrementCartItemQuantity(foodDetails)
+              }}
               type="button"
             >
               +
@@ -52,14 +82,12 @@ const FoodItem = ({objDetails, incrementQuantity, derementQuantity}) => {
           <p className="dish-not-available-span">Not Available</p>
         )}
         {foodDetails.addonCat.length > 0 && (
-          <span className="foodItem-customizations-text">
+          <p className="foodItem-customizations-text">
             Customizations available
-          </span>
+          </p>
         )}
       </div>
-      <span className="dish-calories-span">
-        {foodDetails.dishCalories} calories
-      </span>
+      <p className="dish-calories-span">{foodDetails.dishCalories} calories</p>
       <div className="dish-image-container">
         <img src={foodDetails.dishImage} alt="dish" />
       </div>
